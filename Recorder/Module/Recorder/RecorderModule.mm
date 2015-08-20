@@ -7,9 +7,10 @@
 //
 
 #import "RecorderModule.h"
+
 #import <FAKFontAwesome.h>
-#import "MeterTable.h"
 #import "NSString+Reverse.h"
+#import "MeterTable.h"
 
 #define MAX_BAR_METRIC_NUMBER   14
 #define MIN_DECIBEL_VALUE      -160
@@ -27,7 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIButton   *recorderDeleteButton;
 @property (weak, nonatomic) IBOutlet UILabel    *recorderBarMetricLeftLabel;
 @property (weak, nonatomic) IBOutlet UILabel    *recorderBarMetricsRightLabel;
-@property (weak, nonatomic) IBOutlet UILabel *recorderPressToRecordLabel;
+@property (weak, nonatomic) IBOutlet UILabel    *recorderPressToRecordLabel;
 
 // gestures
 @property (strong, nonatomic) IBOutlet UILongPressGestureRecognizer *recorderLongPressGesture;
@@ -66,7 +67,7 @@
     [self updateMetricsLabels];
     
     // 4) localization
-    self.recorderPressToRecordLabel.text = NSLocalizedString(@"Press to record", nil);
+    self.recorderPressToRecordLabel.text = NSLocalizedString(@"Hold to record", nil);
 }
 
 #pragma mark - RecorderModule setup methods
@@ -102,7 +103,7 @@
             
             // 1) define the options
             NSDictionary *settings = @{AVFormatIDKey            : @(kAudioFormatLinearPCM),
-                                       AVSampleRateKey          : @44100,
+                                       AVSampleRateKey          : @16000,
                                        AVNumberOfChannelsKey    : @2};
             // 2) init the recorder
             NSError *outError;
@@ -161,7 +162,7 @@
     if (self.metrics.count == MAX_BAR_METRIC_NUMBER && [self.metrics objectAtIndex:self.metricIndex] != nil) {
         [self.metrics replaceObjectAtIndex:self.metricIndex withObject:@(rounded)];
     } else {
-       [self.metrics addObject:@(rounded)];
+        [self.metrics addObject:@(rounded)];
     }
     self.metricIndex = (self.metricIndex < MAX_BAR_METRIC_NUMBER - 1) ? self.metricIndex + 1 : 0;
     NSLog(@"%@", [self.metrics componentsJoinedByString:@" | "]);
@@ -212,7 +213,7 @@
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         dateFormatter.dateFormat = @"mm:ss";
         dispatch_sync(dispatch_get_main_queue(), ^{
-           self.recorderDurationLabel.text = [dateFormatter stringFromDate:date];
+            self.recorderDurationLabel.text = [dateFormatter stringFromDate:date];
         });
     });
 }
@@ -235,7 +236,7 @@
         }
         dispatch_sync(dispatch_get_main_queue(), ^{
             self.recorderBarMetricsRightLabel.text  = rightString;
-            self.recorderBarMetricLeftLabel.text    = [rightString reverseString];
+            self.recorderBarMetricLeftLabel.text    = [rightString reversedString];
         });
     });
 }
@@ -287,7 +288,7 @@
     NSLog(@"START RECORDING");
     
     // 3) change the button color
-     self.recorderMicrophoneLabel.backgroundColor = RGB(27, 149, 211);
+    self.recorderMicrophoneLabel.backgroundColor = RGB(27, 149, 211);
     
     // 4) launch the recorder
     [self.recorder prepareToRecord];
@@ -358,7 +359,7 @@
 #pragma mark - RecorderModule update user interface
 
 - (void)showSendAndDeleteButtons:(BOOL)present {
-
+    
     self.sendHorizontalSpacingConstraint.constant   = present ? 25.0f : -50.0f;
     self.deleteHorizontalSpacingConstraint.constant = present ? 25.0f : -50.0f;
     
@@ -393,7 +394,7 @@
     if (state == UIGestureRecognizerStateBegan) {
         [self startToRecord];
     } else if (state == UIGestureRecognizerStateEnded) {
-
+        
         [self stopToRecord];
     }
 }
@@ -403,7 +404,13 @@
 }
 
 - (IBAction)touchSendAction:(id)sender {
-
+    NSURL *fileURL = [self audioFileURL];
+    BOOL fileExist = [[NSFileManager defaultManager] fileExistsAtPath:fileURL.path];
+    if (fileExist) {
+        if (self.delegate && [self.delegate conformsToProtocol:@protocol(RecorderModuleDelegate)]) {
+            [self.delegate recorderModule:self didRecordFileToSendAtPath:fileURL];
+        }
+    }
 }
 
 - (IBAction)touchDeleteAction:(id)sender {

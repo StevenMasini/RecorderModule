@@ -9,13 +9,15 @@
 #import "NSString+Reverse.h"
 
 @implementation NSString (Reverse)
-- (NSString *)reverseString {
-    NSMutableString *reverseName = [[NSMutableString alloc] initWithCapacity:self.length];
+
+- (NSString *)reversedString {
+    NSMutableString *reversedString = [[NSMutableString alloc] initWithCapacity:self.length];
     for (NSInteger i = self.length - 1;i>=0;i--) {
         unichar c = [self characterAtIndex:i];
         NSString *character = [NSString stringWithCharacters:&c length:1];
-        [reverseName appendString:character];
+        [reversedString appendString:character];
     }
-    return [NSString stringWithString:reverseName];
+    return [NSString stringWithString:reversedString];
 }
+
 @end

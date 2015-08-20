@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NSString (Reverse)
-- (NSString *)reverseString;
+- (NSString *)reversedString;
 @end

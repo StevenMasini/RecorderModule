@@ -12,6 +12,14 @@
 
 #define RGB(_r_, _g_, _b_) [UIColor colorWithRed:(float)_r_/255. green:(float)_g_/255. blue:(float)_b_/255. alpha:1.0]
 
+@protocol RecorderModuleDelegate;
+
 @interface RecorderModule : UIViewController
+@property (nonatomic, assign) id<RecorderModuleDelegate>delegate;
+@end
+
+@protocol RecorderModuleDelegate <NSObject>
+
+- (void)recorderModule:(RecorderModule *)recorderModule didRecordFileToSendAtPath:(NSURL *)filePathURL;
 
 @end

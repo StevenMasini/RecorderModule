@@ -58,6 +58,17 @@
         <!--Recorder Module-->
         <scene sceneID="77T-Ft-IUg">
             <objects>
+                <tapGestureRecognizer enabled="NO" id="oe0-99-bZf">
+                    <connections>
+                        <action selector="touchPlayAction:" destination="nxl-JD-CHZ" id="fgx-aT-CjN"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <pongPressGestureRecognizer delaysTouchesEnded="NO" allowableMovement="100" minimumPressDuration="0.0" id="Cm5-Zo-e2M">
+                    <connections>
+                        <action selector="longPressRecordAction:" destination="nxl-JD-CHZ" id="Mm1-7N-pqW"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="56o-FO-5oH" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="nxl-JD-CHZ" customClass="RecorderModule" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nBe-xY-f81"/>
@@ -67,8 +78,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="217"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press to record" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lc9-h3-GD7">
-                                <rect key="frame" x="109" y="24" width="102.5" height="17.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hold to record" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lc9-h3-GD7">
+                                <rect key="frame" x="112" y="24" width="96.5" height="17.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="8az-kI-cBw"/>
                                 </constraints>
@@ -77,7 +88,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sbP-ri-uUx">
-                                <rect key="frame" x="133" y="53.5" width="54" height="18"/>
+                                <rect key="frame" x="133" y="53" width="54" height="18"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="54" id="RlT-WQ-IxO"/>
                                     <constraint firstAttribute="height" constant="18" id="mTw-2j-oJU"/>
@@ -87,7 +98,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ma-E1-x4Y">
-                                <rect key="frame" x="21.5" y="72.5" width="57" height="57"/>
+                                <rect key="frame" x="22" y="72" width="57" height="57"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="5ma-E1-x4Y" secondAttribute="height" multiplier="1:1" id="AKZ-PZ-jxi"/>
@@ -102,7 +113,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AHi-td-cjT">
-                                <rect key="frame" x="240.5" y="72.5" width="57" height="57"/>
+                                <rect key="frame" x="241" y="72" width="57" height="57"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="AHi-td-cjT" secondAttribute="height" multiplier="1:1" id="6ly-Jl-q9g"/>
@@ -117,7 +128,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CVQ-7v-TRC" userLabel="MicroView">
-                                <rect key="frame" x="103.5" y="75" width="112" height="112"/>
+                                <rect key="frame" x="104" y="75" width="112" height="112"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d2S-sl-85S">
                                         <rect key="frame" x="4" y="4" width="104" height="104"/>
@@ -196,19 +207,8 @@
                         <outlet property="sendHorizontalSpacingConstraint" destination="Qod-zf-wOt" id="xf8-ck-lvP"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="56o-FO-5oH" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer delaysTouchesEnded="NO" allowableMovement="100" minimumPressDuration="0.0" id="Cm5-Zo-e2M">
-                    <connections>
-                        <action selector="longPressRecordAction:" destination="nxl-JD-CHZ" id="Mm1-7N-pqW"/>
-                    </connections>
-                </pongPressGestureRecognizer>
-                <tapGestureRecognizer enabled="NO" id="oe0-99-bZf">
-                    <connections>
-                        <action selector="touchPlayAction:" destination="nxl-JD-CHZ" id="fgx-aT-CjN"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="332" y="703.5"/>
+            <point key="canvasLocation" x="332" y="725.5"/>
         </scene>
     </scenes>
 </document>
